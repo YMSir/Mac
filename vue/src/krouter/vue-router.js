@@ -9,7 +9,7 @@ let _Vue;
 
 export default class VueRouter {
   constructor (options) {
-    this.routes = options.routes;
+    this.options = options;
 
     // current 响应式数据
     _Vue.util.defineReactive(this, 'current', window.location.hash.slice(1) || '/');

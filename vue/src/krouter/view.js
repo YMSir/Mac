@@ -6,7 +6,7 @@ export default {
   name: 'RouterView',
   render (h) {
     // this.$router => new VueRouter({ options })
-    const { current, routes } = this.$router;
+    const { current, options: { routes } } = this.$router;
     const route = routes.find(route => route.path === current);
     return h(route.component);
   }

@@ -1,8 +1,14 @@
 <template>
   <div id="app">
     <div id="nav">
-      <router-link to="/">Home</router-link> |
+      <router-link to="/">Home</router-link>
+      |
       <router-link to="/about">About</router-link>
+
+      <hr/>
+      <p>{{ $store.state.counter }}</p>
+      <button @click="$store.commit('add')">mutation add</button>
+      <button @click="$store.dispatch('add')">action add</button>
     </div>
     <router-view/>
   </div>

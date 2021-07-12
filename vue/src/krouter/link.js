@@ -1,3 +1,7 @@
+/**
+ * Created by Yes.Man on 2021/7/12 14:23.
+ * RouterLink Component
+ */
 export default {
   name: 'RouterLink',
   props: {
@@ -7,12 +11,12 @@ export default {
     }
   },
 
-  render (h, context) {
+  render (h) {
     return h(
       'a',
       {
         attrs: {
-          href: '#' + this.to
+          href: '/#' + this.to
         }
       },
       this.$slots.default

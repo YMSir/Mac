@@ -9,37 +9,61 @@ class Store {
   constructor (options) {
     this._mutations = options.mutations;
     this._actions = options.actions;
+    this._getters = options.getters;
 
+    // getters
+    this.getters = {};
+    Object.keys(this._getters).map(key => {
+      this.getters[key] = this._getters[key](this.state);
+    });
+
+    // 响应式state
     this._vm = new _Vue({
       data: {
-        // 添加$$，Vue就不会代理
+        // 添加$$ 或者 _state_，Vue就不会代理
         $$state: options.state,
 
-        // new Store()能通过this.state访问，就可以直接改变这个数据
-        state: 'test'
+        // 能通过this._vm.test访问，就可以直接改变这个数据
+        test: 'test'
       }
     });
 
-    console.log(this.state);
+    // 绑定this
+    this.commit = this.commit.bind(this);
+    this.dispatch = this.dispatch.bind(this);
   }
 
   get state () {
+    // _data 或者 $data 都是一样的
     // return this._vm._data.$$state;
     return this._vm.$data.$$state;
   }
 
+  set state (v) {
+    console.error(`use store.replaceState() to explicit replace store state.`);
+  }
+
+  // $store.commit(type, payload)
   commit (type, payload) {
-    console.log(type, payload);
     const entry = this._mutations[type];
     if (entry) {
       entry(this.state, payload);
+      Object.keys(this._getters).map(key => {
+        this.getters[key] = this._getters[key](this.state);
+      });
+      console.log(this);
+    } else {
+      console.error(`[vuex] mutation type: ${ type }. Silent option has been removed. `);
     }
   }
 
+  // $store.dispatch(type, payload)
   dispatch (type, payload) {
     const entry = this._actions[type];
     if (entry) {
-
+      entry(this, payload);
+    } else {
+      console.error(`[vuex] unknown action type: ${ type }.`);
     }
   }
 }

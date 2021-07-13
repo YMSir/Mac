@@ -5,12 +5,15 @@
       |
       <router-link to="/about">About</router-link>
 
-      <hr/>
+      <hr />
       <p>{{ $store.state.counter }}</p>
       <button @click="$store.commit('add')">mutation add</button>
       <button @click="$store.dispatch('add')">action add</button>
+
+      <hr />
+      <p>{{ $store.getters.doubleCounter }}</p>
     </div>
-    <router-view/>
+    <router-view />
   </div>
 </template>
 

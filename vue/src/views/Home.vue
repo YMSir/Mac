@@ -13,10 +13,6 @@ export default {
   name: 'Home',
   components: {
     HelloWorld
-  },
-
-  beforeCreate () {
-    console.log(this.$router);
   }
 };
 </script>

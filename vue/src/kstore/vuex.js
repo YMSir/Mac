@@ -3,9 +3,17 @@
  * file: Vuex
  */
 
+let _Vue
 export class Store {
   constructor (options) {
+    this._mutations = options.mutations
+    this._actions = options.actions
 
+    const _vm = new _Vue({
+      data:{
+        $$state: options.state
+      }
+    })
   }
 
   commit () {
@@ -18,5 +26,5 @@ export class Store {
 }
 
 export function install (Vue) {
-
+_Vue = Vue
 }

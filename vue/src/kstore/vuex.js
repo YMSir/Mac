@@ -5,7 +5,7 @@
 
 let _Vue;
 
-export class Store {
+class Store {
   constructor (options) {
     this._mutations = options.mutations;
     this._actions = options.actions;
@@ -26,6 +26,8 @@ export class Store {
   }
 }
 
-export function install (Vue) {
+function install (Vue) {
   _Vue = Vue;
 }
+
+export default { Store, install };

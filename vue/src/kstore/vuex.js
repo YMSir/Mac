@@ -12,9 +12,19 @@ class Store {
     this._getters = options.getters;
 
     // getters
+    const computed = {};
     this.getters = {};
     Object.keys(this._getters).map(key => {
-      this.getters[key] = this._getters[key](this.state);
+      // 获取用户定义的getter
+      const fn = this._getters[key];
+
+      // 转换成computed无参形式
+      computed[key] = () => fn(this.state);
+
+      // 为getter定义只读属性
+      Object.defineProperty(this.getters, key, {
+        get: () => this._vm[key]
+      })
     });
 
     // 响应式state
@@ -25,7 +35,8 @@ class Store {
 
         // 能通过this._vm.test访问，就可以直接改变这个数据
         test: 'test'
-      }
+      },
+      computed
     });
 
     // 绑定this
@@ -48,10 +59,6 @@ class Store {
     const entry = this._mutations[type];
     if (entry) {
       entry(this.state, payload);
-      Object.keys(this._getters).map(key => {
-        this.getters[key] = this._getters[key](this.state);
-      });
-      console.log(this);
     } else {
       console.error(`[vuex] mutation type: ${ type }. Silent option has been removed. `);
     }

@@ -24,7 +24,7 @@ class Store {
       // 为getter定义只读属性
       Object.defineProperty(this.getters, key, {
         get: () => this._vm[key]
-      })
+      });
     });
 
     // 响应式state
@@ -92,4 +92,5 @@ function install (Vue) {
   });
 }
 
+// 导出Vuex
 export default { Store, install };

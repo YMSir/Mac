@@ -8,6 +8,9 @@ export default {
     // this.$router => new VueRouter({ options })
     const { current, options: { routes } } = this.$router;
     const route = routes.find(route => route.path === current);
+
+    // Todo 嵌套路由
+
     return h(route.component);
   }
 };

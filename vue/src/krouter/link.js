@@ -1,6 +1,6 @@
 /**
  * Created by Yes.Man on 2021/7/12 14:23.
- * RouterLink Component
+ * @file: RouterLink Component
  */
 export default {
   name: 'RouterLink',

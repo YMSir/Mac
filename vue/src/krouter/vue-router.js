@@ -1,6 +1,6 @@
 /**
  * Created by Yes.Man on 2021/7/12 14:23.
- * VueRouter Class
+ * @file: VueRouter Class
  */
 import Link from './link';
 import View from './view';

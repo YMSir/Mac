@@ -1,6 +1,6 @@
 /**
  * Created by Yes.Man on 2021/7/12 14:23.
- * RouterView Component
+ * @file: RouterView Component
  */
 export default {
   name: 'RouterView',

@@ -1,6 +1,7 @@
 /**
  * Created by Yes.Man on 2021/7/17 12:45.
  * @file: vue
+ * 框架构造函数
  */
 
 class Vue {
@@ -8,14 +9,14 @@ class Vue {
     this.$options = options;
     this.$data = options.data;
 
+    // 对数据做响应式拦截
+    new Observer(this.$data)
+
     // 代理
     this.proxy();
 
     // 编译
     new Compile(options.el, this);
-
-    console.log('Vue', this);
-    console.log(this.$el);
   }
 
   /**
@@ -30,24 +31,3 @@ class Vue {
     });
   }
 }
-
-function defineReactive (obj, key, val) {
-  Object.defineProperty(obj, key, {
-    get: () => {
-      console.log('get', key);
-      return val;
-    },
-
-    set: newVal => {
-      if (val !== newVal) {
-        console.log('set', key);
-        val = newVal;
-      }
-    }
-  });
-}
-
-// const obj = { a: 1 };
-// defineReactive(obj, 'a', 1);
-// obj.a = 33;
-// console.log(obj.a);

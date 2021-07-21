@@ -5,5 +5,21 @@
  */
 
 class Watcher {
-  constructor () {}
+  constructor (vm, key, updater) {
+    this.vm = vm;
+    this.key = key;
+    this.updater = updater;
+
+    // 触发一下get
+    Dep.target = this;
+    // this.vm[this.key];
+    Dep.target = null;
+  }
+
+  /**
+   * 将来被Dep调用
+   */
+  update () {
+    this.updater.call(this.vm, this.vm[this.key]);
+  }
 }

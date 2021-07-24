@@ -9,10 +9,17 @@ class Dep {
     this.deps = [];
   }
 
+  /**
+   * 添加依赖
+   * @param dep Watch实例
+   */
   addDep (dep) {
     this.deps.push(dep);
   }
 
+  /**
+   *
+   */
   notify () {
     this.deps.forEach(dep => dep.update());
   }

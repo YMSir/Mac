@@ -10,13 +10,16 @@ class Vue {
     this.$data = options.data;
 
     // 对数据做响应式拦截
-    new Observer(this.$data)
+    new Observer(this.$data);
 
     // 代理
     this.proxy();
 
     // 编译
     new Compile(options.el, this);
+
+    // mounted
+    options.mounted.call(this);
   }
 
   /**

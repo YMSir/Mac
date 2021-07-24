@@ -12,23 +12,45 @@
   <body>
     <div id="app">
       <p>{{ counter }}</p>
+      <p v-text="counter"></p>
+      <p v-html="html"></p>
+      <p v-html="desc"></p>
+      <input style="width: 500px;" type="text" v-model="desc">
+      <br>
+      <button @click="clearInterval">clearInterval</button>
+      <br>
+      <p>{{ arr }}</p>
+      <button @click="push">array push</button>
     </div>
 
     <script>
       const app = new Vue({
         el: '#app',
         data: {
-          counter: 0
+          counter: 0,
+          html: `html: <strong style="color: blueviolet;">{{ counter }}</strong>`,
+          desc: `<strong style="color: fuchsia;">desc: this is a desc.</strong>`,
+          timer: null,
+          arr: [ 1, 2, 3 ]
         },
 
         mounted () {
-          this.counter++
+          this.timer = setInterval(() => {
+            this.counter++;
+          }, 300);
+        },
+
+        methods: {
+          clearInterval () {
+            clearInterval(this.timer);
+          },
+
+          push () {
+            this.arr.push(12, 23);
+            console.log(this.arr);
+          }
         }
       });
-
-      setInterval(() => {
-        // app.counter++
-      }, 300)
     </script>
   </body>
 </html>

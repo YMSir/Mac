@@ -26,10 +26,10 @@ const weexFactoryPlugin = {
 }
 
 const aliases = require('./alias')
-const resolve = p => {
-  const base = p.split('/')[0]
-  if (aliases[base]) {
-    return path.resolve(aliases[base], p.slice(base.length + 1))
+const resolve = p => { // p => web/entry-runtime-with-compiler.js
+  const base = p.split('/')[0] // web
+  if (aliases[base]) { // src/platforms/web
+    return path.resolve(aliases[base], p.slice(base.length + 1)) // p.slice(base.length + 1) => entry-runtime-with-compiler.js
   } else {
     return path.resolve(__dirname, '../', p)
   }
@@ -213,7 +213,8 @@ const builds = {
   }
 }
 
-function genConfig (name) {
+// 获取配置
+function genConfig (name) { // name => web-full-dev
   const opts = builds[name]
   const config = {
     input: opts.entry,

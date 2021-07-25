@@ -30,6 +30,7 @@ Vue.prototype.$mount = function (
     return this
   }
 
+  // 拓展$mount
   const options = this.$options
   // resolve template/el and convert to render function
   if (!options.render) {

@@ -14,7 +14,7 @@ function Vue (options) {
   this._init(options)
 }
 
-initMixin(Vue)
+initMixin(Vue) // Vue.prototype._init
 stateMixin(Vue)
 eventsMixin(Vue)
 lifecycleMixin(Vue)

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>02-timerFunc</title>
+  </head>
+  <body>
+    <div id="app">
+      <h3>{{ random }}</h3>
+    </div>
+
+    <script src="../../dist/vue.js"></script>
+    <script>
+      new Vue({
+        data () {
+          return {
+            random: Math.random()
+          };
+        },
+
+        mounted () {
+          Promise.resolve().then(() => {
+            console.log('promise', this.random);
+          });
+
+          console.log(1, this.getRandomValue());
+          console.log(2, this.getRandomValue());
+          console.log(3, this.getRandomValue());
+
+          Promise.resolve().then(() => {
+            console.log('promise2', this.random);
+          });
+
+          this.$nextTick(() => {
+            console.log('nexTick', this.random);
+          });
+        },
+
+        methods: {
+          /**
+           * get random
+           * @returns {number}
+           */
+          getRandomValue () {
+            return this.random = Math.random();
+          }
+        }
+      }).$mount('#app');
+    </script>
+  </body>
+</html>

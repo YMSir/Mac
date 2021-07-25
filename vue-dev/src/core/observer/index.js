@@ -131,6 +131,7 @@ export function observe (value: any, asRootData: ?boolean): Observer | void {
 
 /**
  * Define a reactive property on an Object.
+ * 定义对象上的响应性属性
  */
 export function defineReactive (
   obj: Object,
@@ -163,6 +164,8 @@ export function defineReactive (
         dep.depend()
         if (childOb) {
           childOb.dep.depend()
+
+          // 值为数组时
           if (Array.isArray(value)) {
             dependArray(value)
           }

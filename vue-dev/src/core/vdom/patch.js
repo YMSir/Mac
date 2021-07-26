@@ -421,6 +421,7 @@ export function createPatchFunction (backend) {
       checkDuplicateKeys(newCh)
     }
 
+    // vnode diff
     while (oldStartIdx <= oldEndIdx && newStartIdx <= newEndIdx) {
       if (isUndef(oldStartVnode)) {
         oldStartVnode = oldCh[++oldStartIdx] // Vnode has been moved left
@@ -697,6 +698,7 @@ export function createPatchFunction (backend) {
     }
   }
 
+  // 补丁函数
   return function patch (oldVnode, vnode, hydrating, removeOnly) {
     if (isUndef(vnode)) {
       if (isDef(oldVnode)) invokeDestroyHook(oldVnode)

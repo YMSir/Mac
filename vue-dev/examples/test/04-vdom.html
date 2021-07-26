@@ -5,6 +5,28 @@
     <title>04-vdom</title>
   </head>
   <body>
+    <div id="app">
+      <h3>vdom</h3>
+      <p>{{ random }}</p>
+    </div>
 
+    <script src="../../dist/vue.js"></script>
+    <script>
+      new Vue({
+        el: '#app',
+        data () {
+          return {
+            random: Math.random()
+          };
+        },
+
+        mounted () {
+          setInterval(() => {
+            this.random = Math.random();
+            console.log(this.random);
+          }, 1000);
+        }
+      });
+    </script>
   </body>
 </html>

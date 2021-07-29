@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>03.v-model修饰符</title>
+    <script src="../../dist/vue.global.js"></script>
+  </head>
+  <body>
+    <div id="app">
+      <my-component v-model.capitalize="myText"></my-component>
+      {{ myText }}
+    </div>
+
+    <script>
+      Vue.createApp({
+        data () {
+          return {
+            myText: ''
+          }
+        }
+      })
+        .component('my-component', {
+          props: {
+            modelValue: String,
+            modelModifiers: {
+              default: () => ({})
+            }
+          },
+          emits: [ 'update:modelValue' ],
+          template: `
+            <input
+              type="text"
+              :value="modelValue"
+              @input="$emit('update:modelValue', $event.target.value)"
+            >
+          `,
+          created () {
+            console.log(this.modelModifiers) // { capitalize: true }
+          }
+        })
+        .mount('#app')
+    </script>
+  </body>
+</html>

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>02.自定义组件v-model</title>
+    <script src="../../dist/vue.global.js"></script>
+  </head>
+  <body>
+    <div id="app">
+      <p>firstName: {{ firstName }}</p>
+      <p>lastName: {{ lastName }}</p>
+      <user-name
+        v-model:first-name="firstName"
+        v-model:last-name="lastName"
+      ></user-name>
+    </div>
+
+    <script>
+      // 局部注册组件
+      const UserName = {
+        props: {
+          firstName: String,
+          lastName: String
+        },
+        emits: [ 'update:firstName', 'update:lastName' ],
+        template: `
+          <input
+            type="text"
+            :value="firstName"
+            @input="$emit('update:firstName', $event.target.value)"
+          >
+
+          <input
+            type="text"
+            :value="lastName"
+            @input="$emit('update:lastName', $event.target.value)"
+          >
+        `
+      }
+
+      Vue.createApp({
+        components: {
+          'user-name': UserName
+        },
+        data () {
+          return {
+            firstName: 'firstName',
+            lastName: 'lastName'
+          }
+        }
+      })
+        // 全局注册组件
+        // .component('user-name', {
+        //   props: {
+        //     firstName: String,
+        //     lastName: String
+        //   },
+        //   emits: ['update:firstName', 'update:lastName'],
+        //   template: `
+        //     <input
+        //       type="text"
+        //       :value="firstName"
+        //       @input="$emit('update:firstName', $event.target.value)">
+        //
+        //     <input
+        //       type="text"
+        //       :value="lastName"
+        //       @input="$emit('update:lastName', $event.target.value)">
+        //   `
+        // })
+        .mount('#app')
+    </script>
+  </body>
+</html>

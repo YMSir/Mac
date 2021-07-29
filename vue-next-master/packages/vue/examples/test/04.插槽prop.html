@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>04.插槽prop</title>
+    <script src="../../dist/vue.global.js"></script>
+  </head>
+  <body>
+    <div id="app">
+      <todo-list v-slot="{ item }">
+        <i class="fas fa-check"></i>
+        <span class="green">{{ item }}</span>
+      </todo-list>
+    </div>
+
+    <script>
+      Vue.createApp({})
+        .component('todo-list', {
+          template: `
+            <ul>
+              <li v-for="item in items">
+                {{ item }}
+              </li>
+            </ul>
+          `,
+          data () {
+            return {
+              items: [ 'Feed a cat', 'Buy milk' ]
+            }
+          }
+        })
+        .mount('#app')
+    </script>
+  </body>
+</html>

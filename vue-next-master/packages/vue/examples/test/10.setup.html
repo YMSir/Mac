@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>10.setup</title>
+    <script src="../../dist/vue.global.js"></script>
+  </head>
+  <body>
+    <div id="app">
+      <div ref="root">This is a root element</div>
+      <book :book-name="bookName"></book>
+    </div>
+
+    <script>
+      const { toRefs, h, ref, reactive, onMounted, watchEffect } = Vue
+
+      Vue.createApp({
+        data () {
+          return {
+            bookName: '你不知道的JavaScript'
+          }
+        },
+        // setup() {
+        //   const readersNumber = ref(0)
+        //   const book = reactive({ title: 'Vue 3 Guide' })
+        //   // 请注意这里我们需要显式调用 ref 的 value
+        //   return () => h('div', [readersNumber.value, book.title])
+        // }
+
+        setup () {
+          const root = ref(null)
+          // onMounted(() => {
+          //   console.log(root.value)
+          // })
+
+          watchEffect(
+            () => {
+              console.log(root.value)
+            },
+            { flush: 'post' }
+          )
+
+          return { root }
+        }
+      })
+        .component('book', {
+          template: `
+            <h3>props: {{ bookName }}</h3>
+            <h3>setup: {{ name }}</h3>
+          `,
+          props: {
+            bookName: String
+          },
+          setup (props, { attrs, slots, emit }) {
+            /**
+             * 执行 setup 时，组件实例尚未被创建
+             * 你只能访问这些 property：props、attrs、slots、emit
+             * 将无法访问这些组件选项：data、computed、methods
+             */
+            console.log(props)
+            const { bookName } = toRefs(props)
+
+            return {
+              name: bookName
+            }
+          }
+        })
+        .mount('#app')
+    </script>
+  </body>
+</html>

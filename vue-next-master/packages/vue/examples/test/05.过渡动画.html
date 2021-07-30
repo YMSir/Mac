@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>05.过渡动画</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <script src="../../dist/vue.global.js"></script>
+    <style>
+      .fade-enter-active,
+      .fade-leave-active {
+        transition: opacity 0.5s ease;
+      }
+
+      .fade-enter-from,
+      .fade-leave-to {
+        opacity: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app">
+      <button @click="show = !show">
+        Toggle
+      </button>
+
+      <!--<transition-->
+      <!--  name="custom-classes-transition"-->
+      <!--  enter-active-class="animate__animated animate__zoomIn"-->
+      <!--  leave-active-class="animate__animated animate__zoomOut"-->
+      <!--&gt;-->
+      <!--  <p v-if="show">hello</p>-->
+      <!--</transition>-->
+
+      <transition
+        name="fade"
+        @transitionend="transitionend"
+      >
+        <p v-if="show">hello</p>
+      </transition>
+    </div>
+
+    <script>
+      Vue.createApp({
+        data () {
+          return {
+            show: false
+          }
+        },
+
+        methods: {
+          transitionend (e) {
+            console.log(e)
+          }
+        }
+      }).mount('#app')
+    </script>
+  </body>
+</html>

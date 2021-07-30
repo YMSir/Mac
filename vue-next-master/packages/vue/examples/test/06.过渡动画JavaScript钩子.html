@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>06.过渡动画JavaScript钩子</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.3.4/gsap.min.js"></script>
+    <script src="../../dist/vue.global.js"></script>
+    <style>
+      body {
+        margin: 30px;
+      }
+
+      .box {
+        width: 30px;
+        height: 30px;
+        background: teal;
+        margin-top: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app">
+      <button @click="show = !show">
+        Toggle
+      </button>
+
+      <transition
+        @before-enter="beforeEnter"
+        @enter="enter"
+        @leave="leave"
+        :css="false"
+      >
+        <div v-if="show" class="box"></div>
+      </transition>
+    </div>
+
+    <script>
+      Vue.createApp({
+        data () {
+          return {
+            show: false
+          }
+        },
+
+        methods: {
+          beforeEnter (el) {
+            gsap.set(el, {
+              scaleX: 0.8,
+              scaleY: 1.2
+            })
+          },
+
+          enter (el, done) {
+            gsap.to(el, {
+              duration: 1,
+              scaleX: 1.5,
+              scaleY: 0.7,
+              opacity: 1,
+              x: 150,
+              ease: 'elastic.inOut(2.5, 1)',
+              onComplete: done
+            })
+          },
+
+          leave (el, done) {
+            gsap.to(el, {
+              duration: 0.7,
+              scaleX: 1,
+              scaleY: 1,
+              x: 300,
+              ease: 'elastic.inOut(2.5, 1)'
+            })
+            gsap.to(el, {
+              duration: 0.2,
+              delay: 0.5,
+              opacity: 0,
+              onComplete: done
+            })
+          }
+        }
+      }).mount('#app')
+    </script>
+  </body>
+</html>

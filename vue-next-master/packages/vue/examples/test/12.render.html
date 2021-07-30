@@ -17,12 +17,12 @@
     </div>
 
     <script>
-      const { reactive, ref } = Vue
+      const { reactive, ref, h } = Vue
 
       Vue.createApp({
         setup () {
           const headers = ref(
-            Array.apply(null, { length: 81 }).map((_, index) => ({
+            Array.apply(null, { length: 11 }).map((_, index) => ({
               id: index,
               level: index % 6 + 1,
               content: 'header' + (index % 6 + 1)

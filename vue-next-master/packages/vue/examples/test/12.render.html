@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>12.render</title>
+    <script src="../../dist/vue.global.js"></script>
+  </head>
+  <body>
+    <div id="app">
+      <anchored-heading
+        v-for="header in headers"
+        :key="header.id"
+        :level="header.level"
+      >
+        {{ header.content }}
+      </anchored-heading>
+    </div>
+
+    <script>
+      const { reactive, ref } = Vue
+
+      Vue.createApp({
+        setup () {
+          const headers = ref(
+            Array.apply(null, { length: 81 }).map((_, index) => ({
+              id: index,
+              level: index % 6 + 1,
+              content: 'header' + (index % 6 + 1)
+            }))
+          )
+
+          return { headers }
+        }
+      })
+        .component('anchored-heading', {
+          props: {
+            level: Number
+          },
+          render () {
+            return h(
+              'h' + this.level, // tag name
+              {}, // props/attributes
+              this.$slots.default() // array of children
+            )
+          }
+        })
+        .mount('#app')
+    </script>
+  </body>
+</html>

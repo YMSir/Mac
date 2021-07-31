@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>13.响应性</title>
+    <script src="../../dist/vue.global.js"></script>
+  </head>
+  <body>
+    <div id="app">
+      <p>state.count: {{ state.count }}</p>
+      <p>computed: {{ plusOne }}</p>
+    </div>
+
+    <script>
+      const { reactive, computed } = Vue
+
+      const app = Vue.createApp({
+        setup () {
+          const state = reactive({
+            count: 0
+          })
+
+          const plusOne = computed({
+            get () {return state.count + 1},
+            set (val) {
+              state.count = val - 1
+            }
+          })
+
+          plusOne.value = 3
+
+          return {
+            state,
+            plusOne
+          }
+        }
+      })
+
+      const vm = app.mount('#app')
+
+      console.log(app)
+      console.log(vm)
+    </script>
+  </body>
+</html>

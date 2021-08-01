@@ -66,6 +66,7 @@ export const createApp = ((...args) => {
     injectCompilerOptionsCheck(app)
   }
 
+  /* 扩展app.mount(selector) */
   const { mount } = app
   app.mount = (containerOrSelector: Element | ShadowRoot | string): any => {
     const container = normalizeContainer(containerOrSelector)

@@ -177,6 +177,8 @@ export function createAppAPI<HostElement>(
   render: RootRenderFunction,
   hydrate?: RootHydrateFunction
 ): CreateAppFunction<HostElement> {
+
+  /* 返回app应用实例 */
   return function createApp(rootComponent, rootProps = null) {
     if (rootProps != null && !isObject(rootProps)) {
       __DEV__ && warn(`root props passed to app.mount() must be an object.`)
@@ -273,6 +275,7 @@ export function createAppAPI<HostElement>(
         return app
       },
 
+      /* 挂载mount(selector) */
       mount(
         rootContainer: HostElement,
         isHydrate?: boolean,

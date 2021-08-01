@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>15.init</title>
+    <script src="../dist/vue.global.js"></script>
+  </head>
+  <body>
+    <div id="app">
+      <h3>{{ title }}</h3>
+    </div>
+
+    <script>
+      const { reactive, toRefs, ref } = Vue;
+      Vue.createApp({
+        setup () {
+          const state = reactive({
+            title: 'helle, vue3!'
+          });
+
+          setTimeout(() => {
+            state.title = Array.from(state.title).reverse().join('');
+          }, 1000);
+
+          const count = ref(0);
+          console.log(count);
+
+          return toRefs(state);
+        }
+      }).mount('#app');
+    </script>
+  </body>
+</html>

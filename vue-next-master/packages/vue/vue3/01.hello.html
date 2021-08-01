@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8">
     <title>01.hello</title>
-    <script src="../../dist/vue.global.js"></script>
+    <script src="../dist/vue.global.js"></script>
   </head>
   <body>
     <div id="app">
@@ -25,19 +25,19 @@
                 // 'Vue 4 - The Mystery'
               ]
             }
-          }
+          };
         },
 
         computed: {
           // 计算属性的 getter
           publishedBooksMessage () {
             // `this` 指向 vm 实例
-            return this.author.books.length > 0 ? 'Yes' : 'No'
+            return this.author.books.length > 0 ? 'Yes' : 'No';
           }
         }
-      })
+      });
 
-      app.mount('#app')
+      app.mount('#app');
     </script>
   </body>
 </html>

@@ -5,9 +5,11 @@
 
 function reactive (obj) {
   return new Proxy(obj, {
+    ...Reflect,
+
     get () {
       const v = Reflect.get(...arguments)
-      console.log('get', arguments)
+      console.log('get', v)
       if (typeof v === 'object' && v !== null) {
         return reactive(v)
       } else {
@@ -15,15 +17,15 @@ function reactive (obj) {
       }
     },
 
-    set () {
-      console.log('set', arguments)
-      return Reflect.set(...arguments)
-    },
-
-    deleteProperty () {
-      console.log('delete', arguments)
-      return Reflect.deleteProperty(...arguments)
-    }
+    // set () {
+    //   console.log('set', arguments)
+    //   return Reflect.set(...arguments)
+    // },
+    //
+    // deleteProperty () {
+    //   console.log('delete', arguments)
+    //   return Reflect.deleteProperty(...arguments)
+    // }
   })
 }
 
@@ -47,4 +49,4 @@ obj.a = {
   b: 'xxx'
 }
 console.log(obj.a.b)
-console.log(obj.x.y)
+// console.log(obj.x.y)

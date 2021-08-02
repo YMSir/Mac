@@ -31,7 +31,8 @@ const handler = {
   }
 }
 
-const proxy = new Proxy(dinner, handler)
+// const proxy = new Proxy(dinner, handler)
+const proxy = new Proxy(dinner, Reflect)
 console.log(proxy.meal)
 proxy.a = 'xxxx'
 console.log(proxy)

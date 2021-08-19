@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>16.vue3</title>
+  </head>
+  <body>
+    <div id="app">
+      <h3>{{ title }}</h3>
+    </div>
+
+    <script>
+      const Vue = {
+        createApp (options) {
+          return {
+            mount (selector) {
+              const parent = document.querySelector(selector);
+
+              if (!options.render) {
+                options.render = this.compile(parent.innerHTML);
+              }
+
+              const el = options.render.call(options.data());
+              parent.innerHTML = '';
+              parent.appendChild(el);
+            },
+
+            compile (template) {
+              return function render () {
+                const h3 = document.createElement('h3');
+                h3.innerHTML = this.title;
+                return h3;
+              };
+            }
+          };
+        }
+      };
+
+      const app = Vue.createApp({
+        data () {
+          return {
+            title: 'this is a title in data.'
+          };
+        },
+
+        setup () {
+          return {
+            title: 'this is a title in setup.'
+          };
+        }
+      });
+
+      app.mount('#app');
+    </script>
+  </body>
+</html>

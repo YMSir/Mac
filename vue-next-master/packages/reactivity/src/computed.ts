@@ -60,6 +60,7 @@ class ComputedRefImpl<T> {
   }
 }
 
+/* computed函数重载 */
 export function computed<T>(
   getter: ComputedGetter<T>,
   debugOptions?: DebuggerOptions

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>17.composition</title>
+    <script src="../dist/vue.global.js"></script>
+  </head>
+  <body>
+    <div id="app">
+      <p>{{ state.counter }}</p>
+      <p>{{ doubleCounter }}</p>
+      <button @click="add">add</button>
+    </div>
+
+    <script>
+      const { createApp, reactive, computed } = Vue;
+
+      createApp({
+        setup () {
+          const state = reactive({
+            counter: 1
+
+          });
+
+          const doubleCounter = computed(() => state.counter * 2);
+
+          const add = () => {
+            state.counter++;
+          };
+
+          return { state, doubleCounter, add };
+        }
+      }).mount('#app');
+    </script>
+  </body>
+</html>

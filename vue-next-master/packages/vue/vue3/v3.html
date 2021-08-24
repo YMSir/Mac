@@ -8,6 +8,68 @@
     <div id="app"></div>
 
     <script>
+      const effectStack = [];
+      const targetMap = new WeakMap();
+
+      /**
+       * 添加副作用函数
+       */
+      function effect (fn) {
+        const eff = function () {
+          try {
+            effectStack.push(eff);
+            fn();
+          } finally {
+            effectStack.pop();
+          }
+        };
+
+        eff();
+
+        return eff;
+      }
+
+      /**
+       * 依赖收集
+       * @param target
+       * @param key
+       */
+      function track (target, key) {
+        const eff = effectStack[effectStack.length - 1];
+        if (eff) {
+          let depMap = targetMap.get(target);
+          if (!depMap) {
+            depMap = new Map();
+            targetMap.set(target, depMap);
+          }
+
+          let deps = depMap.get(key);
+          if (!deps) {
+            deps = new Set();
+            depMap.set(key, deps);
+          }
+
+          deps.add(eff);
+        }
+      }
+
+      /**
+       * 依赖触发
+       * @param target
+       * @param key
+       */
+      function trigger (target, key) {
+        const depMap = targetMap.get(target);
+        if (depMap) {
+          const deps = depMap.get(key);
+          if (deps) {
+            deps.forEach(dep => dep());
+          }
+        }
+      }
+    </script>
+
+    <script>
       function isObject (v) {
         return typeof v === 'object' && v !== null;
       }
@@ -19,37 +81,53 @@
           get (target, p, receiver) {
             const val = Reflect.get(...arguments);
             console.log('get', p, val);
+            track(target, p);
             return isObject(val) ? reactive(val) : val;
           },
 
           set (target, p, value, receiver) {
             console.log('set', p, value);
             const res = Reflect.set(...arguments);
-            app.update();
+            // app.update();
+            trigger(target, p);
             return res;
           },
 
           deleteProperty (target, p) {
             console.log('delete', p);
             const res = Reflect.deleteProperty(...arguments);
-            app.update();
+            // app.update();
+            trigger(target, p);
             return res;
           }
         });
       }
 
-      // const state = reactive({
-      //   foo: 'foo',
-      //   bar: {
-      //     x: { y: 123 }
-      //   }
-      // });
+      const state = reactive({
+        foo: 'foo',
+        bar: {
+          x: 123
+        }
+      });
       // console.log(state.foo);
       // state.foo = 'bar';
       // delete state.baz;
       // state.bar.x;
       // state.bar.x = 345;
       // console.log(state.bar.x);
+
+      // effect(() => {
+      //   // console.log('effect');
+      //   // state.foo = 'bar';
+      //   console.log('effect', state.foo);
+      // });
+
+      // effect(() => {
+      //   console.log('effect2', state.foo, state.bar.x);
+      // });
+
+      // state.foo = 'bar';
+      // state.bar.x = 345;
     </script>
 
     <script>
@@ -102,14 +180,14 @@
                     }
                   });
 
-                  this.update = function () {
+                  this.update = effect(() => {
                     const el = options.render.call(this.proxy);
                     parent.innerHTML = '';
                     insert(el, parent);
-                  };
+                  });
 
                   // init
-                  this.update();
+                  // this.update();
                 },
 
                 compile (template) {
@@ -143,7 +221,7 @@
 
           return state;
         }
-      })
+      });
 
       app.mount('#app');
     </script>

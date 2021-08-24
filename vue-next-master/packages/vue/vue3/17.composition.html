@@ -7,20 +7,25 @@
   </head>
   <body>
     <div id="app">
-      <p>{{ state.counter }}</p>
+      <p>{{ counter }}</p>
       <p>{{ doubleCounter }}</p>
       <button @click="add">add</button>
     </div>
 
     <script>
-      const { createApp, reactive, computed } = Vue;
+      const { createApp, reactive, computed, toRefs, ref, onMounted } = Vue;
 
       createApp({
         setup () {
           const state = reactive({
             counter: 1
-
           });
+
+          const obj = ref({
+            foo: 'foo'
+          });
+
+          console.log(obj.value.foo);
 
           const doubleCounter = computed(() => state.counter * 2);
 
@@ -28,7 +33,18 @@
             state.counter++;
           };
 
-          return { state, doubleCounter, add };
+          /* 在onMounted后执行 */
+          setTimeout(() => {
+            console.log('setTimeout');
+            state.counter++;
+          }, 0);
+
+          onMounted(() => {
+            console.log('on mounted');
+            state.counter++;
+          });
+
+          return { ...toRefs(state), doubleCounter, add };
         }
       }).mount('#app');
     </script>
